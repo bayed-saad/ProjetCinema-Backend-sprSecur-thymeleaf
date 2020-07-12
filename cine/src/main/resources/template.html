@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf">
+<head>
+<meta charset="ISO-8859-1">
+<title>Bienvenue Au Cinema</title>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css" />
+<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-success">
+		<!-- Brand -->	 
+		<a class="navbar-brand"></a>
+		<!-- Links -->
+		<ul class="navbar-nav">
+			<li class="nav-item"><a class="nav-link" href="http://localhost:4200/Home">Home</a></li>	
+				<!-- Dropdown -->
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Cinema</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" sec:authorize="hasRole('ADMIN')" th:href="@{formCinema}">Ajouter</a> 
+					<a	class="dropdown-item" sec:authorize="hasRole('ADMIN')" th:href="@{cinema}">Chercher</a>
+				</div></li>				
+				<!-- Dropdown -->
+			<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Projection</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item"  sec:authorize="hasRole('ADMIN')" th:href="@{formProjection}">Ajouter</a> 
+					<a	class="dropdown-item"  sec:authorize="hasRole('ADMIN')" th:href="@{projection}">Chercher</a>
+				<!-- Dropdown -->
+			<li class="nav-item dropdown">
+			<a	class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Film</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item"  sec:authorize="hasRole('ADMIN')" th:href="@{formFilm}">Ajouter</a>
+					 <a	class="dropdown-item"  sec:authorize="hasRole('ADMIN')" th:href="@{film}">Chercher</a>
+				</div></li>
+							
+		</ul>
+		<ul class="navbar-nav ml-auto">
+			<!-- Dropdown -->
+			<li class="nav-item dropdown">
+			<a	class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">[Chair]</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" sec:authorize="!isAuthenticated()" th:href="@{login}">Login</a>
+					 <a	class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{logout}">LogOut</a> 
+					
+				</div></li>
+		</ul>
+	</nav>
+	<section layout:fragment="pageContent"></section>
+</body>
+</html>

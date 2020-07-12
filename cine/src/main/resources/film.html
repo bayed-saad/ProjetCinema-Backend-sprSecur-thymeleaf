@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+	layout:decorator="template">
+<head><meta charset="UTF-8"></head>
+<body>
+	<div layout:fragment="pageContent">
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-header">Liste Film</div>
+				<div class="card-body">
+					<div class="mb-5">
+						<form th:action=@{film} method="get">
+							<label> Nom film: </label> <input type="text" name="motCle" size="25px"placeholder="Rechercher Film" th:value="${motCle}" class="p-1" />
+							<button class="btn btn-warning" >Chercher</button>
+						</form>
+					</div>
+
+					<div th:if="${modeSup=='nonAutorise'}" class="alert alert-danger" role="alert">
+						Suppression impossible du   
+						<p class="d-inline" th:text="${id_courant}"></p>
+						éme film
+					</div>
+					<div th:if="${modeSup=='Autorise'}" class="alert alert-success"	role="alert">
+						Suppression du film <p class="d-inline" th:text="${id_courant}"></p>
+						est effectué
+
+					</div>
+					<div class="row">
+						<div th:each="f:${pagefilms.content}">
+							<div class="col-md-8">
+								<div class="card mb-2 text-black"
+									style="width: 15rem; background-color: #f0f8ff">
+									<img style="width: 238px; height: 220px;" class="card-img-top"
+										th:src="@{'/imageFilm/'+${f.id}}" alt="Card image cap">								
+										
+								<div class="card-body">
+										<h5 th:text="${f.titre}" class="card-title"></h5>
+										<div class="mb-2">Description: <p th:text="${f.description}" class="card-text d-inline"></p></div>
+										<div class="mb-2">Réalisateur: <p th:text="${f.realisateur}" class="card-text d-inline"></p> </div>
+										<div class="mb-2"> Date de sortie:<p th:text="${f.dateSortie}" class="card-text d-inline"></p> </div>
+										<div class="mb-2">Duree: <p th:text="${f.duree}" class="card-text d-inline"></p></div>
+										<div class="mb-2">Categorie:<p th:text="${f.categorie.name}" class="card-text d-inline"></p> </div>
+										<a onclick="javascript:return confirm('voulez vous supprimer??')" class="btn btn-danger"
+											th:href="@{deleteFilm(id=${f.id},page=${currentpage},size=${size},motCle=${motCle})}">
+											Delete</a> <a class="btn btn-success" th:href="@{editFilm(id=${f.id})}">Edit</a>
+										</td>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+<div class="d-flex justify-content-center">
+					<ul class="nav nav-pills ">
+						<li th:each="page,status:${pages}">
+						<a th:class="${status.index==currentpage?'btn btn-dark':'btn btn-success'}"
+							th:href="@{film(page=${status.index},motCle=${motCle})}"
+							th:text="${status.index}+1"></a></li>
+					</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

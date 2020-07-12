@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+	layout:decorator="template">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-header">Liste Projections </div>
+				<div class="card-body">
+					<div class="mb-5">
+						<form th:action=@{projection} method="get">
+							<label>Nom film: </label> <input type="text" name="motCle" size="25px"placeholder="Rechercher par Film"	th:value="${motCle}" class="p-1" />
+							<button class="btn btn-warning">Chercher</button>
+						</form>
+					</div>
+					<table class="table table-striped">
+						<tr> <th>ID</th><th>date projection</th><th>prix</th><th>film</th><th>salle</th><th>seance</th> </tr>
+						<tr th:each="p:${pageprojections.content}"><td th:text="${p.id}"></td><td th:text="${p.dateProjection}"></td>
+							<td th:text="${p.prix}"></td><td th:text="${p.film.titre}"></td><td th:text="${p.salle.name}"></td>
+							<td th:text="${p.seance.heureDebut}"></td>
+							<td><a onclick="javascript:return confirm('voulez vous supprimer??')" class="btn btn-danger"
+								th:href="@{deleteProjection(id=${p.id},page=${currentpage},size=${size},motCle=${motCle})}">
+									Delete</a></td>
+							<td><a class="btn btn-success" th:href="@{editProjection(id=${p.id})}">Edit</a></td>
+						</tr>
+					</table>
+					<div th:if="${modeSup=='nonAutorise'}" class="alert alert-danger"
+						role="alert">
+						suppression impossible du projection N
+						<p class="d-inline" th:text="${id_courant}"></p>
+					</div>
+					<div th:if="${modeSup=='Autorise'}" class="alert alert-success"
+						role="alert">
+						suppression du projection N
+						<p class="d-inline" th:text="${id_courant}"></p>
+						est effectué
+
+					</div>
+					<ul class="nav nav-pills">
+						<li th:each="page,status:${pages}"><a th:class="${status.index==currentpage?'btn btn-dark':'btn btn-success'}"
+							th:href="@{projection(page=${status.index},motCle=${motCle})}" th:text="${status.index}+1"></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
